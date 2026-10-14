@@ -1,0 +1,274 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+/* ─────────────────────────────────────────────────────────────
+   Tokens de marca — extraídos del logo de Qumt'asim
+   wine-800 = fondo del logo · cream-50 = trazo del logo
+   ───────────────────────────────────────────────────────────── */
+@theme {
+  --color-wine-950: #140102;
+  --color-wine-900: #220304;
+  --color-wine-850: #2f0404;
+  --color-wine-800: #3e0404;
+  --color-wine-700: #541010;
+  --color-wine-600: #721a1a;
+  --color-wine-500: #922828;
+
+  --color-cream-50: #fcf3e3;
+  --color-cream-100: #f5e6cc;
+  --color-cream-200: #e8d2ab;
+  --color-cream-300: #cbb08a;
+  --color-cream-400: #a88d6a;
+
+  --color-gold-300: #f6cd7c;
+  --color-gold-400: #f0b54d;
+  --color-gold-500: #e39b2a;
+
+  /* Colores del aguayo, solo para acentos mínimos */
+  --color-aguayo-rose: #e2477a;
+  --color-aguayo-green: #2f9e6e;
+  --color-aguayo-blue: #3a6fd8;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-quart: cubic-bezier(0.5, 0, 0.75, 0);
+}
+
+/* `inline`: las variables se resuelven en el elemento que usa la utilidad
+   (permite --marquee-duration por instancia). */
+@theme inline {
+  --font-display: var(--font-anton);
+  --font-serif: var(--font-instrument);
+  --font-sans: var(--font-manrope);
+
+  --animate-marquee: marquee var(--marquee-duration, 40s) linear infinite;
+  --animate-marquee-reverse: marquee var(--marquee-duration, 40s) linear infinite reverse;
+  --animate-spin-slow: spin-slow 32s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+@keyframes float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -14px, 0); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Base
+   ───────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: dark;
+  --header-h: 5.5rem;
+}
+
+html {
+  background: var(--color-wine-900);
+  scroll-padding-top: calc(var(--header-h) + 1.5rem);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--color-wine-900);
+  color: var(--color-cream-50);
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-gold-400);
+  color: var(--color-wine-900);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold-400);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Glassmorphism
+   ───────────────────────────────────────────────────────────── */
+@utility glass {
+  background:
+    linear-gradient(135deg, rgb(252 243 227 / 0.11), rgb(252 243 227 / 0.03) 60%),
+    rgb(62 4 4 / 0.18);
+  /* Vía variable: Lightning CSS conserva así la propiedad sin prefijo */
+  --glass-filter: blur(18px) saturate(150%);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
+  border: 1px solid rgb(252 243 227 / 0.14);
+  box-shadow:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.10),
+    inset 0 -1px 0 0 rgb(0 0 0 / 0.15),
+    0 18px 40px -18px rgb(0 0 0 / 0.55);
+}
+
+@utility glass-strong {
+  background:
+    linear-gradient(135deg, rgb(252 243 227 / 0.12), rgb(252 243 227 / 0.04) 60%),
+    rgb(34 3 4 / 0.62);
+  --glass-filter: blur(24px) saturate(160%);
+  backdrop-filter: var(--glass-filter);
+  -webkit-backdrop-filter: var(--glass-filter);
+  border: 1px solid rgb(252 243 227 / 0.16);
+  box-shadow:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.12),
+    0 24px 60px -24px rgb(0 0 0 / 0.7);
+}
+
+/* Barrido de brillo para botones y tarjetas (hover) */
+@utility sheen {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.22) 48%, transparent 66%);
+    transform: translateX(-120%);
+    transition: transform 0.9s var(--ease-out-expo);
+    pointer-events: none;
+  }
+  &:hover::after {
+    transform: translateX(120%);
+  }
+}
+
+/* Franja de aguayo */
+@utility aguayo-stripe {
+  background: linear-gradient(
+    90deg,
+    var(--color-aguayo-rose) 0 12%,
+    var(--color-gold-400) 12% 22%,
+    var(--color-aguayo-green) 22% 30%,
+    var(--color-cream-50) 30% 34%,
+    var(--color-aguayo-blue) 34% 42%,
+    var(--color-wine-500) 42% 58%,
+    var(--color-aguayo-blue) 58% 66%,
+    var(--color-cream-50) 66% 70%,
+    var(--color-aguayo-green) 70% 78%,
+    var(--color-gold-400) 78% 88%,
+    var(--color-aguayo-rose) 88% 100%
+  );
+}
+
+/* Patrón de rombos andinos (inspirado en la taza del logo) */
+@utility bg-andean {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56' fill='none' stroke='%23fcf3e3' stroke-width='1.2'%3E%3Cpath d='M28 6 50 28 28 50 6 28Z'/%3E%3Cpath d='M28 17 39 28 28 39 17 28Z'/%3E%3Cpath d='M0 0 6 6M56 0 50 6M0 56 6 50M56 56 50 50'/%3E%3C/svg%3E");
+  background-size: 56px 56px;
+}
+
+/* Grano de papel / lino como el logo */
+@utility grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .88 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgb(252 243 227 / 0.55);
+}
+
+@utility mask-fade-x {
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+/* Boleto perforado para promociones */
+@utility ticket-notch {
+  --notch: 14px;
+  mask:
+    radial-gradient(circle var(--notch) at 0 var(--notch-y, 62%), transparent 98%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle var(--notch) at 100% var(--notch-y, 62%), transparent 98%, #000) right / 51% 100% no-repeat;
+}
+
+/* Luces del fondo */
+.ambient-blob {
+  animation: drift 30s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(6vw, 5vh, 0) scale(1.08); }
+  100% { transform: translate3d(-5vw, 9vh, 0) scale(0.94); }
+}
+
+/* Vapor de la sopa: un trazo recorre cada curva de abajo hacia arriba */
+.steam-path {
+  stroke-dasharray: 34 66;
+  animation: steam 3.4s ease-in-out infinite;
+}
+@keyframes steam {
+  0% { stroke-dashoffset: 100; opacity: 0; transform: translateY(6px); }
+  25% { opacity: 1; }
+  80% { opacity: 0.9; }
+  100% { stroke-dashoffset: 34; opacity: 0; transform: translateY(-10px); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Transiciones entre páginas (React <ViewTransition>)
+   El header queda fijo; el contenido sale hacia arriba
+   desenfocándose y el nuevo entra desde abajo.
+   ───────────────────────────────────────────────────────────── */
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-old(.page-exit) {
+  animation: 260ms var(--ease-in-quart) both page-out;
+}
+::view-transition-new(.page-enter) {
+  animation: 700ms var(--ease-out-expo) 140ms both page-in;
+}
+
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translate3d(0, -28px, 0) scale(0.985);
+    filter: blur(8px);
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 56px, 0);
+    filter: blur(10px);
+  }
+}
+
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+  .animate-marquee,
+  .animate-marquee-reverse,
+  .animate-spin-slow,
+  .animate-float,
+  .ambient-blob {
+    animation: none !important;
+  }
+  .steam-path {
+    animation: none !important;
+    stroke-dasharray: none;
+    opacity: 0.8;
+  }
+}
