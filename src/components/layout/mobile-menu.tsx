@@ -97,10 +97,20 @@ export function MobileMenu({ open, onClose, pathname }: { open: boolean; onClose
 
             <motion.div variants={list} className="mt-12 space-y-6">
               <motion.div variants={item}>
-                <ButtonLink href={whatsappLink("¡Hola Qumt'asim! Quisiera reservar una mesa.")} size="lg" className="w-full">
-                  <WhatsAppIcon className="size-5" />
-                  Reservar por WhatsApp
-                </ButtonLink>
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
+                  <ButtonLink href="/reservas" onClick={onClose} size="lg" arrow>
+                    Reservar mesa
+                  </ButtonLink>
+                  <ButtonLink
+                    href={whatsappLink("¡Hola Qumt'asim! Quisiera reservar una mesa.")}
+                    variant="glass"
+                    size="lg"
+                    aria-label="Escribir por WhatsApp"
+                    className="px-5"
+                  >
+                    <WhatsAppIcon className="size-5" />
+                  </ButtonLink>
+                </div>
               </motion.div>
               <motion.div variants={item} className="flex items-center justify-between text-sm text-cream-200/80">
                 <a href="#contacto" onClick={goToContact} className="flex items-center gap-2 hover:text-cream-50">

@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import { nav } from "@/content/site";
-import { cn, isActivePath, whatsappLink } from "@/lib/utils";
+import { cn, isActivePath } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/button";
 import { easeOutExpo } from "@/components/motion/reveal";
 import { MobileMenu } from "./mobile-menu";
@@ -80,7 +80,7 @@ export function Header() {
 
           <div className="flex items-center gap-2">
             <div className="hidden sm:block">
-              <ButtonLink href={whatsappLink("¡Hola Qumt'asim! Quisiera reservar una mesa.")} size="sm" arrow>
+              <ButtonLink href="/reservas" size="sm" arrow>
                 Reservar
               </ButtonLink>
             </div>

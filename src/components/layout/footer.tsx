@@ -36,12 +36,15 @@ export function Footer() {
             </h2>
             <Reveal delay={0.15} y={20}>
               <p className="mt-6 max-w-md text-cream-200/80">
-                Muy pronto podrás reservar en línea. Mientras tanto, escríbenos por WhatsApp y te guardamos la mesa.
+                Reserva tu mesa en línea en un minuto o, si prefieres, escríbenos por WhatsApp.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <ButtonLink href={whatsappLink("¡Hola Qumt'asim! Quisiera reservar una mesa.")} size="lg">
+                <ButtonLink href="/reservas" size="lg" arrow>
+                  Reservar mesa
+                </ButtonLink>
+                <ButtonLink href={whatsappLink("¡Hola Qumt'asim! Quisiera reservar una mesa.")} variant="glass" size="lg">
                   <WhatsAppIcon className="size-5" />
-                  Reservar por WhatsApp
+                  WhatsApp
                 </ButtonLink>
                 <ButtonLink href={mapsLink()} variant="glass" size="lg" arrow>
                   Cómo llegar

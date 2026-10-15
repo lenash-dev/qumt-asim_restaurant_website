@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 import { nav, site } from "@/content/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return nav.map((item) => ({
-    url: new URL(item.href, site.url).toString(),
+  return [...nav.map((item) => item.href), "/reservas"].map((href) => ({
+    url: new URL(href, site.url).toString(),
     changeFrequency: "weekly",
-    priority: item.href === "/" ? 1 : 0.8,
+    priority: href === "/" ? 1 : 0.8,
   }));
 }
