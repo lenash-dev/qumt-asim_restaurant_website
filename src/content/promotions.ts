@@ -1,5 +1,7 @@
 /**
- * Promociones (contenido de ejemplo).
+ * Promociones. Las reales se arman en el sistema de gestión y llegan desde
+ * Supabase (ver src/lib/data.ts); estas son de ejemplo, solo para cuando
+ * Supabase no está configurado.
  * `days` usa 0 = domingo … 6 = sábado. Sin `days` = todos los días.
  */
 export type Promotion = {
@@ -17,7 +19,7 @@ export type Promotion = {
   highlight?: boolean;
 };
 
-export const promotions: Promotion[] = [
+export const samplePromotions: Promotion[] = [
   {
     id: "almuerzo-ejecutivo",
     title: "Almuerzo ejecutivo",
