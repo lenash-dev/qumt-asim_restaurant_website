@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getPromotions } from "@/lib/data";
 import { whatsappLink } from "@/lib/utils";
 import { PageTransition } from "@/components/layout/page-transition";
 import { PageHero } from "@/components/layout/page-hero";
@@ -10,7 +11,9 @@ export const metadata: Metadata = {
   description: "Almuerzo ejecutivo, combos para compartir y promociones de la semana en Qumt'asim.",
 };
 
-export default function PromotionsPage() {
+export default async function PromotionsPage() {
+  const promotions = await getPromotions();
+
   return (
     <PageTransition>
       <PageHero
@@ -20,7 +23,7 @@ export default function PromotionsPage() {
         ghost="Promo"
         description="Almuerzos, combos para compartir y detalles de la casa. Filtra por día y aprovecha las que aplican hoy."
       />
-      <PromotionsBoard />
+      <PromotionsBoard promotions={promotions} />
       <Reveal className="mx-auto max-w-7xl px-5 pb-12 sm:px-8">
         <p className="max-w-2xl text-sm text-cream-300">
           Promociones válidas en el local, no acumulables entre sí y sujetas a disponibilidad. ¿Quieres una promoción para

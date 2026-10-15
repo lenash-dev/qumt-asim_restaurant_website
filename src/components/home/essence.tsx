@@ -1,6 +1,4 @@
 import { Glasses, HeartHandshake, ScrollText, Wheat } from "lucide-react";
-import { dishes } from "@/content/menu";
-import { promotions } from "@/content/promotions";
 import { services } from "@/content/corporate";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SpotlightCard } from "@/components/ui/spotlight-card";
@@ -30,13 +28,12 @@ const values = [
   },
 ];
 
-const stats = [
-  { value: dishes.length, label: "platos en carta" },
-  { value: promotions.length, label: "promociones" },
-  { value: services.length, label: "servicios para empresas" },
-];
-
-export function Essence() {
+export function Essence({ dishCount, promotionCount }: { dishCount: number; promotionCount: number }) {
+  const stats = [
+    { value: dishCount, label: "platos en carta" },
+    { value: promotionCount, label: "promociones" },
+    { value: services.length, label: "servicios para empresas" },
+  ];
   return (
     <section className="relative py-28 sm:py-36">
       <div className="mx-auto grid max-w-7xl gap-16 px-5 sm:px-8 lg:grid-cols-12 lg:gap-10">

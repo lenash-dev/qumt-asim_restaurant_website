@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRef, type PointerEvent } from "react";
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "motion/react";
-import { featuredDishes } from "@/content/menu";
+import type { Dish } from "@/content/menu";
 import { formatPrice } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/button";
 import { Diamond } from "@/components/ui/eyebrow";
@@ -14,9 +14,8 @@ import { RiseLine } from "@/components/motion/rise-line";
 
 const highlights = ["Platos típicos", "Almuerzo ejecutivo", "Catering para empresas"];
 
-export function Hero() {
+export function Hero({ recommended }: { recommended?: Dish }) {
   const ref = useRef<HTMLElement>(null);
-  const recommended = featuredDishes[0];
 
   // Al hacer scroll, el texto sube y se desvanece, la ilustración se queda atrás.
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });

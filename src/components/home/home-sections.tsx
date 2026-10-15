@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { categories, dishes, featuredDishes } from "@/content/menu";
-import { promotions } from "@/content/promotions";
+import type { Dish } from "@/content/menu";
+import type { Promotion } from "@/content/promotions";
 import { services } from "@/content/corporate";
 import { whatsappLink } from "@/lib/utils";
 import { ButtonArrow, ButtonLink } from "@/components/ui/button";
@@ -12,8 +12,8 @@ import { serviceIcons } from "@/components/corporate/service-icons";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/reveal";
 
 /** Cintas inclinadas con los nombres de los platos */
-export function DishMarquee() {
-  const names = dishes.map((d) => d.name);
+export function DishMarquee({ names }: { names: string[] }) {
+  if (names.length < 2) return null;
   const half = Math.ceil(names.length / 2);
   return (
     <section aria-label="Algunos de nuestros platos" className="relative py-10">
@@ -27,7 +27,8 @@ export function DishMarquee() {
   );
 }
 
-export function SignatureDishes() {
+export function SignatureDishes({ dishes, total }: { dishes: Dish[]; total: number }) {
+  if (dishes.length === 0) return null;
   return (
     <section className="relative py-28 sm:py-36">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -36,17 +37,17 @@ export function SignatureDishes() {
             eyebrow="La carta"
             title="Lo más pedido"
             accent="los favoritos de la casa"
-            description={`${dishes.length} platos entre ${categories.map((c) => c.label.toLowerCase()).join(", ")}.`}
+            description={`Una selección de los ${total} platos de nuestra carta. El menú cambia cada día: míralo completo.`}
           />
           <Reveal y={20} delay={0.2}>
             <ButtonLink href="/menu" variant="glass" arrow>
-              Ver menú completo
+              Ver menú de hoy
             </ButtonLink>
           </Reveal>
         </div>
 
         <RevealGroup className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {featuredDishes.map((dish, index) => (
+          {dishes.slice(0, 3).map((dish, index) => (
             <RevealItem key={dish.id} className={index === 1 ? "lg:translate-y-10" : undefined}>
               <FeaturedDishCard dish={dish} index={index} />
             </RevealItem>
@@ -57,7 +58,8 @@ export function SignatureDishes() {
   );
 }
 
-export function PromotionsPreview() {
+export function PromotionsPreview({ promotions }: { promotions: Promotion[] }) {
+  if (promotions.length === 0) return null;
   const [main, ...rest] = [...promotions].sort((a, b) => Number(Boolean(b.highlight)) - Number(Boolean(a.highlight)));
   return (
     <section className="relative py-28 sm:py-36">

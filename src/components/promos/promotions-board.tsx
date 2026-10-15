@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { promotions } from "@/content/promotions";
+import type { Promotion } from "@/content/promotions";
 import { useRestaurantClock } from "@/lib/clock";
 import { cn } from "@/lib/utils";
 import { easeOutExpo } from "@/components/motion/reveal";
@@ -14,7 +14,7 @@ const shortDays = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 const weekOrder = [1, 2, 3, 4, 5, 6, 0];
 
 /** Promociones con filtro por día de la semana. */
-export function PromotionsBoard() {
+export function PromotionsBoard({ promotions }: { promotions: Promotion[] }) {
   const [day, setDay] = useState<DayFilter>("all");
   const clock = useRestaurantClock();
   const visible = promotions.filter((promo) => day === "all" || !promo.days || promo.days.includes(day));
