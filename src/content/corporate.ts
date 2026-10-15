@@ -35,6 +35,9 @@ export const services: {
   },
 ];
 
+/** Planes que se pueden pedir desde la web (los mismos del sistema de gestión) */
+export const planLabels = { semanal: "Plan semanal", mensual: "Plan mensual", evento: "Evento único" } as const;
+
 export const modalities = [
   {
     title: "Evento único",
