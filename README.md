@@ -58,6 +58,6 @@ Todo el contenido vive en `src/content/`:
 
 ## Notas técnicas
 
-- `backdrop-filter` se declara vía la variable `--glass-filter`: si se escribe directamente, Lightning CSS solo emite la versión `-webkit-` y el glass deja de funcionar en Chrome.
+- El desenfoque de `glass` usa `@apply backdrop-blur-* backdrop-saturate-*`. No escribir `backdrop-filter` a mano: al minificar para producción, Lightning CSS deja solo `-webkit-backdrop-filter` y el glass desaparece en Chrome (en `npm run dev` no se nota; revisar siempre con `npm run build && npm run start`).
 - Con Cache Components no se puede leer la hora (`new Date()`) durante el prerender: los componentes que la necesitan usan `useSyncExternalStore` y se resuelven en el cliente (`lib/clock.ts`, `current-year.tsx`).
 - El header lleva `view-transition-name` en la barra (no en `<header>`) para quedar fijo durante las transiciones sin romper su `backdrop-filter`.
