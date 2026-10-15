@@ -1,28 +1,35 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
+import { getTodayMenu } from "@/lib/data";
 import { whatsappLink } from "@/lib/utils";
 import { PageTransition } from "@/components/layout/page-transition";
 import { PageHero } from "@/components/layout/page-hero";
-import { MenuExplorer } from "@/components/menu/menu-explorer";
+import { DailyMenu } from "@/components/menu/daily-menu";
 import { ButtonLink } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
-  title: "Menú",
-  description: "La carta de Qumt'asim: sopas, platos de fondo, antojitos, bebidas y postres de la cocina boliviana.",
+  title: "Menú del día",
+  description: "El menú de hoy en Qumt'asim: almuerzo ejecutivo, opciones saludables y platos extras de la cocina boliviana.",
 };
 
-export default function MenuPage() {
+const longDate = (iso: string) =>
+  new Intl.DateTimeFormat("es-BO", { timeZone: "UTC", weekday: "long", day: "numeric", month: "long" }).format(new Date(`${iso}T00:00:00Z`));
+
+export default async function MenuPage() {
+  const menu = await getTodayMenu();
+  const today = longDate(menu.date);
+
   return (
     <PageTransition>
       <PageHero
-        eyebrow="La carta"
+        eyebrow={`Menú de hoy · ${today}`}
         title="Nuestro menú"
-        accent="hecho en casa"
+        accent="cambia cada día"
         ghost="Menú"
-        description="Platos típicos preparados cada día con recetas de siempre. Elige una categoría o busca tu antojo."
+        description="Lo que preparamos hoy, con recetas de siempre. Elige desayuno, almuerzo o cena y busca tu antojo."
       />
-      <MenuExplorer />
+      <DailyMenu menu={menu} />
       <Reveal className="mx-auto max-w-7xl px-5 pb-12 sm:px-8">
         <div className="glass flex flex-col items-start justify-between gap-6 rounded-[2rem] p-8 sm:flex-row sm:items-center">
           <p className="max-w-xl text-sm/relaxed text-cream-200/80">
